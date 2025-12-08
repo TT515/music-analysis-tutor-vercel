@@ -1,6 +1,6 @@
 
 export default async function handler(req, res) {
-  // 1. Handle CORS (Allow requests from your frontend)
+  // 1. Handle CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -38,13 +38,14 @@ export default async function handler(req, res) {
         'Content-Type': req.headers['content-type'] || 'application/json',
         'User-Agent': 'Gemini-Music-Agent-Proxy'
       },
-      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
+      // Only include body for non-GET/HEAD requests
+      body: (req.method !== 'GET' && req.method !== 'HEAD') ? JSON.stringify(req.body) : undefined,
     });
 
     // 5. Return the response
     const data = await response.text();
     
-    // Set status and content type
+    // Propagate the status code and content type
     res.status(response.status);
     res.setHeader('Content-Type', response.headers.get('content-type') || 'application/json');
     res.send(data);
