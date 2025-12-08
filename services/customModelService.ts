@@ -16,12 +16,12 @@ export async function callCustomModelApi(
 ): Promise<string> {
   
   // Default to the Vercel API route if no proxy is provided
-  const baseUrl = proxyUrl || "/api/proxy";
+  // We ensure we don't have trailing slashes for cleaner URL building
+  const baseUrl = (proxyUrl || "/api/proxy").replace(/\/$/, "");
   
-  // Clean the key
   const cleanKey = apiKey.trim();
 
-  // Common Headers - Use Bearer for Replicate
+  // Common Headers - Replicate supports both Token and Bearer, but Bearer is standard.
   const headers = {
     'Authorization': `Bearer ${cleanKey}`,
     'Content-Type': 'application/json',
@@ -30,30 +30,20 @@ export async function callCustomModelApi(
 
   /**
    * Helper to construct the proxy URL.
-   * If using our own /api/proxy, we use the ?url= param.
-   * If using a legacy cors-anywhere style proxy, we might need path concatenation (legacy fallback).
+   * We exclusively use the query param format: /api/proxy?url=...
    */
-  const fetchThroughProxy = async (targetUrl: string, options: RequestInit) => {
-      let finalUrl: string;
-
-      // Check if we are using the local Vercel proxy or a standard query-param proxy
-      if (baseUrl.includes('/api/proxy') || baseUrl === '/api/proxy') {
-          finalUrl = `${baseUrl}?url=${encodeURIComponent(targetUrl)}`;
-      } else {
-          // Fallback: Assume old-style "cors-anywhere" path concatenation if it's an external URL
-          // e.g. https://cors-anywhere.herokuapp.com/https://api.replicate.com...
-          finalUrl = `${baseUrl}/${targetUrl}`;
-      }
-
-      return fetch(finalUrl, options);
+  const getProxyUrl = (target: string) => {
+      const encodedTarget = encodeURIComponent(target);
+      return `${baseUrl}?url=${encodedTarget}`;
   };
 
   // 1. Fetch the latest model version ID
   let versionId: string;
   try {
     const replicateTarget = `https://api.replicate.com/v1/models/${MODEL_OWNER}/${MODEL_NAME}`;
+    const modelUrl = getProxyUrl(replicateTarget);
     
-    const modelResponse = await fetchThroughProxy(replicateTarget, { 
+    const modelResponse = await fetch(modelUrl, { 
         method: 'GET', 
         headers 
     });
@@ -107,12 +97,14 @@ export async function callCustomModelApi(
 
   // 4. Initiate the Prediction (POST /v1/predictions)
   const startUrlTarget = `https://api.replicate.com/v1/predictions`;
+  const startUrl = getProxyUrl(startUrlTarget);
+
   let predictionId: string;
   let status: string;
   let output: any;
 
   try {
-    const startResponse = await fetchThroughProxy(startUrlTarget, {
+    const startResponse = await fetch(startUrl, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -158,7 +150,9 @@ export async function callCustomModelApi(
       await new Promise(resolve => setTimeout(resolve, POLLING_INTERVAL));
 
       const pollTarget = `https://api.replicate.com/v1/predictions/${predictionId}`;
-      const pollResponse = await fetchThroughProxy(pollTarget, { headers });
+      const pollUrl = getProxyUrl(pollTarget);
+
+      const pollResponse = await fetch(pollUrl, { headers });
 
       if (pollResponse.status === 401) {
           throw new Error("Unauthorized (401): Invalid Replicate API Key.");
