@@ -1,0 +1,5 @@
+{
+  "name": "Audio Flamingo Analyzer",
+  "description": "An application to upload an audio file and provide a text prompt to get a generative response using the Audio Flamingo model via Replicate.",
+  "requestFramePermissions": []
+}
