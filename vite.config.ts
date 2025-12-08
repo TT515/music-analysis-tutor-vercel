@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   // IMPORTANT: Replace 'gemini-music-agent' with your actual repository name
-  base: '/gemini-music-agent/', 
+  base: '/', 
 });
