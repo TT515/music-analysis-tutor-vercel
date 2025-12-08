@@ -133,7 +133,7 @@ const App: React.FC = () => {
           {/* Left Column: Inputs */}
           <div className="bg-white shadow-lg rounded-xl p-6 md:p-8 space-y-6 self-start">
              <section aria-labelledby="audio-upload-heading">
-                <h2 id="audio-upload-heading" className="text-xl font-semibold text-gray-800 mb-2">1. Upload Audio (Optional)</h2>
+                <h2 id="audio-upload-heading" className="text-xl font-semibold text-gray-800 mb-2">1. Upload Audio </h2>
                 <AudioUploader file={audioFile} onFileUpload={handleFileUpload} />
              </section>
              <section aria-labelledby="chat-input-heading">
