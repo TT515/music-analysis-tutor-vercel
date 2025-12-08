@@ -144,7 +144,7 @@ const App: React.FC = () => {
                   className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-50"
                   placeholder={
                     !audioFile && messages.length === 0
-                      ? "Ask a music theory question or upload audio."
+                      ? "Upload an audio and ask anything about it."
                       : "Enter your request..."
                   }
                   value={prompt}
