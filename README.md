@@ -6,7 +6,7 @@ Welcome to **Music Analysis Tutor**! This is an interactive AI tool designed to 
 Website: https://music-analysis-tutor-vercel-5vxy3ih4e-tt515s-projects.vercel.app/
 Youtube Demo: https://youtu.be/-a5aqc0YBQw
 
-# To use website
+## 🔗 To use website
 
 You will be prompted to enter a **huggingface key** and an **inference endpoint url to ChatMusician** in the **Settings** menu. 
 To get an inference endpoint to ChatMusician, go to: https://endpoints.huggingface.co/new?repository=m-a-p/ChatMusician
