@@ -1,60 +1,18 @@
 
-# 🎵 Gemini Music Agent
+# 🎵 Music Analysis Tutor
 
-Welcome to **Gemini Music Agent**! This is an interactive AI tool designed to help musicians, students, and enthusiasts analyze audio files and explore complex music theory concepts.
+Welcome to **Music Analysis Tutor**! This is an interactive AI tool designed to help composers and music producers get feedback for their music.
 
-## ✨ What Can It Do?
+Website: https://music-analysis-tutor-vercel-5vxy3ih4e-tt515s-projects.vercel.app/
+Youtube Demo: https://youtu.be/-a5aqc0YBQw
 
-*   **🎧 Analyze Audio**: Upload a track (MP3, WAV, etc.) and ask questions about instruments, key, mood, or melody.
-*   **📚 Music Theory Chat**: Ask deep theoretical questions without needing an audio file.
+# To use website
 
----
+You will be prompted to enter a **huggingface key** and an **inference endpoint url to ChatMusician** in the **Settings** menu. 
+To get an inference endpoint to ChatMusician, go to: https://endpoints.huggingface.co/new?repository=m-a-p/ChatMusician
+**The key is stored safely in your browser's Local Storage.** The developer provides API keys for Gemini and Replicate (Audio Flamingo 3) in the server environment.
 
-## 🚀 Deployment on Vercel
-
-This app is designed to be hosted on **Vercel**. It uses a Serverless Function (`/api/proxy`) to securely communicate with the Audio Analysis tools (Replicate), removing the need for external proxies like `cors-anywhere`.
-
-### 1. Prerequisites
-*   A GitHub account.
-*   A Vercel account.
-*   API Keys for Gemini, Replicate, and Hugging Face.
-
-### 2. Deploy
-1.  Push this code to a GitHub repository.
-2.  Go to [Vercel](https://vercel.com) and "Add New Project".
-3.  Import your GitHub repository.
-4.  **Environment Variables**: In the Vercel Project Settings, add the following variables if you want to pre-configure the app for users (Optional but recommended):
-    *   `VITE_GEMINI_API_KEY`
-    *   `VITE_REPLICATE_API_KEY`
-    *   `VITE_HF_API_KEY`
-5.  Click **Deploy**.
-
-### 3. Running Locally
-To run the app locally with the backend proxy enabled, you must use the Vercel CLI.
-
-1.  **Install Vercel CLI**:
-    ```bash
-    npm i -g vercel
-    ```
-2.  **Login**:
-    ```bash
-    vercel login
-    ```
-3.  **Start Development Server**:
-    ```bash
-    vercel dev
-    ```
-    This command starts both the Vite frontend (port 5173 or similar) and the API proxy (port 3000). Use the URL provided by Vercel (usually `http://localhost:3000`) to access the app.
-
----
-
-## 🔑 Configuration (Bring Your Own Key)
-
-If you do not set the Environment Variables in Step 2 above, the application runs in "Bring Your Own Key" mode.
-
-1.  Open the deployed website.
-2.  You will be prompted to enter your API Keys in the **Settings** menu.
-3.  The keys are stored safely in your browser's Local Storage.
+Once you enter the key and url, upload an audio file and start the conversation! The website will analyze the audio and offer advice based on your needs.
 
 ---
 
