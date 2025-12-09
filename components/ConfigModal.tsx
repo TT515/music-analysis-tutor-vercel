@@ -26,6 +26,7 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ isOpen, onClose, onSav
   const isGeminiProvided = !!(import.meta as any).env?.VITE_GEMINI_API_KEY;
   const isReplicateProvided = !!(import.meta as any).env?.VITE_REPLICATE_API_KEY;
   const isHFProvided = !!(import.meta as any).env?.VITE_HF_API_KEY;
+  const isEndpointProvided = !!(import.meta as any).env?.VITE_CHAT_MUSICIAN_ENDPOINT;
 
   if (!isOpen) return null;
 
@@ -87,10 +88,11 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ isOpen, onClose, onSav
             <label className="block text-sm font-medium text-gray-700">ChatMusician Endpoint</label>
             <input
               type="text"
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
-              value={keys.endpointUrl}
+              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 disabled:bg-gray-100 disabled:text-gray-500"
+              value={isEndpointProvided ? "Provided via Environment" : keys.endpointUrl}
               onChange={(e) => handleChange('endpointUrl', e.target.value)}
               placeholder="https://api-inference.huggingface.co/models/m-a-p/ChatMusician"
+              disabled={isEndpointProvided}
             />
              <p className="text-xs text-gray-500 mt-1">Leave empty to use default inference API.</p>
           </div>
