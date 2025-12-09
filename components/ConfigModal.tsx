@@ -5,7 +5,6 @@ export interface ApiKeys {
   gemini: string;
   replicate: string;
   huggingFace: string;
-  proxyUrl: string;
   endpointUrl: string;
 }
 
@@ -82,18 +81,6 @@ export const ConfigModal: React.FC<ConfigModalProps> = ({ isOpen, onClose, onSav
               placeholder="hf_..."
               disabled={isHFProvided}
             />
-          </div>
-
-           <div>
-            <label className="block text-sm font-medium text-gray-700">Audio Flamingo Proxy URL</label>
-            <input
-              type="text"
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
-              value={keys.proxyUrl}
-              onChange={(e) => handleChange('proxyUrl', e.target.value)}
-              placeholder="/api/proxy"
-            />
-             <p className="text-xs text-gray-500 mt-1">Default: <code>/api/proxy</code> (Uses Vercel serverless function).</p>
           </div>
 
            <div>
