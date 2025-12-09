@@ -3,7 +3,7 @@
 
 Welcome to **Music Analysis Tutor**! This is an interactive AI tool designed to help composers and music producers get feedback for their music.
 
-Website: https://music-analysis-tutor-vercel-5vxy3ih4e-tt515s-projects.vercel.app/
+Website: music-analysis-tutor-vercel.vercel.app
 
 Youtube Demo: https://youtu.be/-a5aqc0YBQw
 
