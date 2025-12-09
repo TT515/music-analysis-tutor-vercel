@@ -8,8 +8,6 @@ import { fileToGenerativePart } from './utils/fileUtils';
 import type { ChatMessage } from './types';
 import { runAgent } from './services/geminiService';
 
-const DEFAULT_PROXY = "/api/proxy";
-
 const App: React.FC = () => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [prompt, setPrompt] = useState<string>('');
@@ -35,7 +33,6 @@ const App: React.FC = () => {
       gemini: envGemini || savedKeys.gemini || '',
       replicate: envReplicate || savedKeys.replicate || '',
       huggingFace: envHF || savedKeys.huggingFace || '',
-      proxyUrl: savedKeys.proxyUrl || DEFAULT_PROXY,
       endpointUrl: savedKeys.endpointUrl || ''
     };
   });
