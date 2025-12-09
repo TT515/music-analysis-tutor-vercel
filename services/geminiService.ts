@@ -96,7 +96,7 @@ export async function runAgent(
                const query = (args as any).query;
                
                // Pass keys and proxy URL
-               toolResult = await callCustomModelApi(keys.replicate, keys.proxyUrl, query, [], audioPart);
+               toolResult = await callCustomModelApi(keys.replicate, "/api/proxy", query, [], audioPart);
             }
           } else if (name === "consult_music_theory") {
             onStatusUpdate("Agent: Consulting ChatMusician...");
