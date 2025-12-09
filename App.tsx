@@ -27,13 +27,14 @@ const App: React.FC = () => {
     const envGemini = (import.meta as any).env?.VITE_GEMINI_API_KEY;
     const envReplicate = (import.meta as any).env?.VITE_REPLICATE_API_KEY;
     const envHF = (import.meta as any).env?.VITE_HF_API_KEY;
+    const envEndpoint = (import.meta as any).env?.VITE_CHAT_MUSICIAN_ENDPOINT;
 
     // Priority: Env Var > LocalStorage > Default
     return {
       gemini: envGemini || savedKeys.gemini || '',
       replicate: envReplicate || savedKeys.replicate || '',
       huggingFace: envHF || savedKeys.huggingFace || '',
-      endpointUrl: savedKeys.endpointUrl || ''
+      endpointUrl: envEndpoint || savedKeys.endpointUrl || ''
     };
   });
 
