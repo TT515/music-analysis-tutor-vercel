@@ -39,12 +39,14 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    // Open settings only if we are missing essential keys
-    const missingGemini = !apiKeys.gemini;
-    if (missingGemini) {
+    // Open settings if ANY configuration is empty
+    const { gemini, replicate, huggingFace, endpointUrl } = apiKeys;
+    const isAnyConfigMissing = !gemini || !replicate || !huggingFace || !endpointUrl;
+    
+    if (isAnyConfigMissing) {
       setIsConfigOpen(true);
     }
-  }, []);
+  }, [apiKeys]);
 
   const handleSaveKeys = (keys: ApiKeys) => {
     setApiKeys(keys);
