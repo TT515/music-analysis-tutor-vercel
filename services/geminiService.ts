@@ -63,7 +63,7 @@ export async function runAgent(
 
     // 2. Initialize Chat with Tools
     const chat = ai.chats.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       history: validHistory,
       config: {
         systemInstruction: system_prompt,
