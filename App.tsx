@@ -179,7 +179,7 @@ const App: React.FC = () => {
         </main>
 
         <footer className="text-center mt-8 text-gray-500 text-sm">
-          <p>Powered by Gemini 2.5, Audio Flamingo, and ChatMusician</p>
+          <p>Powered by Gemini 3, Audio Flamingo, and ChatMusician</p>
         </footer>
       </div>
     </div>
