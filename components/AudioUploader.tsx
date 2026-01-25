@@ -91,6 +91,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onFileUpload, file
               {' '}or drag and drop
             </p>
             <p className="text-xs text-gray-500">Any audio format (e.g., MP3, WAV, M4A)</p>
+            <p className="text-xs text-amber-600 mt-2 font-medium">Recommended: Files smaller than 5MB for models to analyze properly.</p>
             <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="audio/*" onChange={handleFileChange} />
           </>
         )}
