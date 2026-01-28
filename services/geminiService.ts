@@ -67,9 +67,7 @@ export async function runAgent(
       config: {
         systemInstruction: system_prompt,
         tools: [{ functionDeclarations: [analyzeAudioTool, musicTheoryTool] }],
-        // CRITICAL: Set thinkingBudget to 0 to bypass thought_signature requirements 
-        // which can be unstable in tool-calling loops for the preview model.
-        thinkingConfig: { thinkingBudget: 0 }
+        thinkingConfig: { thinkingBudget: 16834 }
       },
     });
 
