@@ -118,7 +118,7 @@ const App: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Music Analysis Tutor</h1>
             <p className="mt-2 text-md text-gray-600 hidden sm:block">
-              An agentic system powered by Gemini 2.5 Flash, Audio Flamingo 3 (listening), and ChatMusician (music reasoning).
+              An agentic system powered by Gemini 3 Flash, Audio Flamingo 3 (listening), and ChatMusician (music reasoning).
             </p>
           </div>
           <button
