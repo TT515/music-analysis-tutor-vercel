@@ -55,27 +55,27 @@ export async function runAgent(
   const ai = new GoogleGenAI({ apiKey: keys.gemini });
 
   try {
-    // 1. Prepare history for Gemini
     const validHistory = history.map(msg => ({
       role: msg.role,
       parts: [{ text: msg.content }],
     }));
 
-    // 2. Initialize Chat with Tools
+    // Initialize Chat with Tools and Thinking disabled to avoid signature issues in Preview
     const chat = ai.chats.create({
       model: 'gemini-3-flash-preview',
       history: validHistory,
       config: {
         systemInstruction: system_prompt,
         tools: [{ functionDeclarations: [analyzeAudioTool, musicTheoryTool] }],
+        // CRITICAL: Set thinkingBudget to 0 to bypass thought_signature requirements 
+        // which can be unstable in tool-calling loops for the preview model.
+        thinkingConfig: { thinkingBudget: 0 }
       },
     });
 
-    // 3. Send Initial Message
     let result = await chat.sendMessage({ message: userPrompt });
 
-    // 4. Handle Tool Loop
-    let maxTurns = 16;
+    let maxTurns = 10; // Slightly lower for safety
 
     while (result.functionCalls && result.functionCalls.length > 0 && maxTurns > 0) {
       maxTurns--;
@@ -90,29 +90,22 @@ export async function runAgent(
           if (name === "analyze_audio") {
             onStatusUpdate("Agent: Consulting Audio Flamingo...");
             if (!audioPart) {
-               toolResult = "Error: No audio file is currently uploaded. Cannot analyze audio content. Please ask the user to upload a file if they want audio analysis.";
+               toolResult = "Error: No audio file is currently uploaded. Cannot analyze audio content.";
             } else {
-               if (!keys.replicate) throw new Error("Replicate API Key missing in settings.");
+               if (!keys.replicate) throw new Error("Replicate API Key missing.");
                const query = (args as any).query;
-               
-               // Pass keys and proxy URL
                toolResult = await callCustomModelApi(keys.replicate, "/api/proxy", query, [], audioPart);
             }
           } else if (name === "consult_music_theory") {
             onStatusUpdate("Agent: Consulting ChatMusician...");
-            if (!keys.huggingFace) throw new Error("Hugging Face API Key missing in settings.");
-            
+            if (!keys.huggingFace) throw new Error("Hugging Face API Key missing.");
             const query = (args as any).query;
             toolResult = await callChatMusician(keys.huggingFace, keys.endpointUrl, query);
-          } else {
-            toolResult = `Error: Unknown tool '${name}'.`;
           }
         } catch (e: any) {
-          console.error(`Stopping Agent due to tool error (${name}):`, e);
-          throw e;
+          toolResult = `Error executing tool ${name}: ${e.message}`;
         }
 
-        // Construct the response part for this tool call
         functionResponses.push({
           functionResponse: {
             name: name,
@@ -122,7 +115,6 @@ export async function runAgent(
         });
       }
 
-      // Send tool responses back to the model
       result = await chat.sendMessage({ message: functionResponses });
     }
 
